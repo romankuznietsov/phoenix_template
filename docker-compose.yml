@@ -7,15 +7,23 @@ services:
       - .:/app
       - mix:/root/.mix
       - deps:/app/deps
-      - node_modules:/app/assets/node_modules
       - build:/app/_build
       - assets:/app/priv/assets
     ports:
       - "4000:4000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:17.5
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
 
 volumes:
   mix:
   deps:
-  node_modules:
   build:
   assets:
+  postgres:

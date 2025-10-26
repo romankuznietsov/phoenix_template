@@ -8,7 +8,7 @@ import Config
 config :app, App.Repo,
   username: "postgres",
   password: "postgres",
-  hostname: "localhost",
+  hostname: "postgres",
   database: "app_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: System.schedulers_online() * 2
@@ -17,7 +17,7 @@ config :app, App.Repo,
 # you can enable the server option below.
 config :app, AppWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "YCMNkNlA9W6o2LxZTLh+bkwDP+AclyC1R3tsaexnp/xq4ol3+eav79SficbX+02V",
+  secret_key_base: "zwyjK42MhRTK649t1lg3OK5PR8voAqKtbrsBdOTap/3fHH+lxzSZYvRhI0XslC4q",
   server: false
 
 # In test we don't send emails

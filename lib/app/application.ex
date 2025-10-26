@@ -9,11 +9,9 @@ defmodule App.Application do
   def start(_type, _args) do
     children = [
       AppWeb.Telemetry,
-      # App.Repo,
+      App.Repo,
       {DNSCluster, query: Application.get_env(:app, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: App.PubSub},
-      # Start the Finch HTTP client for sending emails
-      {Finch, name: App.Finch},
       # Start a worker by calling: App.Worker.start_link(arg)
       # {App.Worker, arg},
       # Start to serve requests, typically the last entry

@@ -3,10 +3,9 @@
 1. Create `Dockerfile` with the following contents:
 
 ```
-FROM elixir:1.18
+FROM elixir:1.19
 
 RUN apt-get update -qq && apt-get install -y inotify-tools postgresql-client
-RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && apt-get install -y nodejs
 
 WORKDIR /app
 
@@ -25,18 +24,26 @@ services:
       - .:/app
       - mix:/root/.mix
       - deps:/app/deps
-      - node_modules:/app/assets/node_modules
       - build:/app/_build
       - assets:/app/priv/assets
     ports:
       - "4000:4000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:17.5
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
 
 volumes:
   mix:
   deps:
-  node_modules:
   build:
   assets:
+  postgres:
 ```
 
 3. Launch the app container
@@ -47,8 +54,8 @@ volumes:
 
 6. In the root directory of the container run `mix phx.new app`, agree to install dependencies
 
-7. In `lib/app/application.ex` comment out `App.Repo`
+7. In `config/dev.exs` and `config/test.exs` set database hostname to `"postges"`.
 
-8. In `mix.exs` comment out `test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],`
+8. Create the database with `mix ecto.setup`.
 
-10. Launch the container with forwarded ports and start the server with `mix phx.server`
+7. Launch the container with forwarded ports and start the server with `mix phx.server`

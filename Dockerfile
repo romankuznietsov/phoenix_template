@@ -1,4 +1,4 @@
-FROM elixir:1.18
+FROM elixir:1.19
 
 RUN apt-get update -qq && apt-get install -y inotify-tools postgresql-client
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && apt-get install -y nodejs
